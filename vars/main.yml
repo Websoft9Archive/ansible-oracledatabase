@@ -1,0 +1,5 @@
+#全局
+region: "0"
+preend_certbot: True
+
+common_os_support: ["CentOS", "OracleLinux"]
