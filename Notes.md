@@ -63,21 +63,7 @@ vi /opt/oracle/product/18c/dbhomeXE/network/admin/tnsnames.ora
 #开放远程访问
 
 ```
-su - oracle ，然后直接在输入 ： vi .bash_profile
-
-
-
-export ORACLE_BASE=/opt/oracle 
-export ORACLE_HOME=/opt/oracle/product/18c/dbhomeXE
-export ORACLE_SID=XE
-export PATH=$PATH:$ORACLE_HOME/bin
-source .bash_profile
-
 systemctl start oracle-xe-18c
-
-
-
-
 su oracle
 sqlplus system 
 输入密码：SYSTEM_password 
@@ -86,12 +72,6 @@ SQL> EXEC DBMS_XDB.SETLISTENERLOCALACCESS（FALSE）;
 systemctl restart oracle-xe-18c
 
 ```
-
-
-
-
-
-
 
 ## 账号密码
 
@@ -111,11 +91,13 @@ systemctl enable oracle-xe-18c
 ```
 
 ## 环境变量  
-
-
-
-```bash
-
+```
+su - oracle ，然后直接在输入 ： vi .bash_profile
+export ORACLE_BASE=/opt/oracle 
+export ORACLE_HOME=/opt/oracle/product/18c/dbhomeXE
+export ORACLE_SID=XE
+export PATH=$PATH:$ORACLE_HOME/bin
+source .bash_profile
 ```
 
 ### 版本号
@@ -126,10 +108,6 @@ systemctl enable oracle-xe-18c
 su oracle
 sqlplus
 ```
-
-
-
-
 
 ## 常见问题
 
@@ -148,18 +126,9 @@ sqlplus
 |              |      |
 
 
-
-
-
 ## 日志
 
 - 2020-05-27完成安装研究
-
-
-
-
-
-
 
 
 
