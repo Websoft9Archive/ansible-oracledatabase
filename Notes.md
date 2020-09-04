@@ -27,17 +27,17 @@
 
 #On Red Hat Enterprise Linux
 
-
+```
 # curl -o oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm https://yum.oracle.com/repo/OracleLinux/OL7/latest/x86_64/getPackage/oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm
 # yum -y localinstall oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm
 # wget https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm                                   
 # yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm  
-
+```
 #On Oracle Linux  
-
+```
 # wget https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm                                   
 # yum -y localinstall oracle-database-xe-18c-1.0-1.x86_64.rpm  
-
+```
 ## 路径
 
 - 程序路径：/opt/oracle/product/18c/dbhomeXE
