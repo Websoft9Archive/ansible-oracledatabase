@@ -1,8 +1,8 @@
 # Oracle Database on Oracle Linux.notes
 
-组件名称：Oracle Database 
-安装文档：https://docs.oracle.com/en/database/oracle/oracle-database/18/xeinl/procedure-installing-oracle-database-xe.html
-配置文档：https://docs.oracle.com/en/database/oracle/oracle-database/18/xeinl/setting-oracle-database-xe-environment-variables.html
+组件名称：Oracle Database   
+安装文档：https://docs.oracle.com/en/database/oracle/oracle-database/18/xeinl/procedure-installing-oracle-database-xe.html  
+配置文档：https://docs.oracle.com/en/database/oracle/oracle-database/18/xeinl/setting-oracle-database-xe-environment-variables.html  
 支持平台： Debian家族 | RHEL家族 | Windows |Oracle Linux|Docker
 
 责任人：helin
