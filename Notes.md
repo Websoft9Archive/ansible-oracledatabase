@@ -59,10 +59,10 @@ sudo -s
 #服务器IP localhost    #在/etc/hosts 文件中增加一行 
 vi /opt/oracle/product/18c/dbhomeXE/network/admin/tnsnames.ora
 (ADDRESS = (PROTOCOL = TCP)(HOST = 服务器IP)(PORT = 1521)) #在tnsnames.ora文件中修改localhost为服务器IP
-
+```
 #开放远程访问
 
-
+```
 su - oracle ，然后直接在输入 ： vi .bash_profile
 
 
