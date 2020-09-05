@@ -32,12 +32,12 @@
       '1': 'community'
       '2': 'enterprise'
 
-    oracle_version: "{{oracledb_version_select[oracledb_version_selection]}}"
-    oracle_server: "{{oracledb_server_select[oracledb_server_selection]}}"
+    oracledb_version: "{{oracledb_version_select[oracledb_version_selection]}}"
+    oracledb_server: "{{oracledb_server_select[oracledb_server_selection]}}"
     
   pre_tasks:
     - debug:
-        msg: Will install ORACLE {{oracle_version}}-{{oracle_server}}
+        msg: Will install ORACLE {{oracledb_version}}-{{oracledb_server}}
 
   roles:
     - {role: role_common, tags: "role_common"}  
