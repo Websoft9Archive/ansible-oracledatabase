@@ -27,11 +27,16 @@
     oracledb_version_select:
       '1': '18c'
       '2': '19c'
+      
+    oracledb_number_select:
+      '1': '18'
+      '2': '19'
 
     oracledb_server_select:
       '1': 'community'
       '2': 'enterprise'
 
+    oracledb_number: "{{oracledb_number_select[oracledb_version_selection]}}"
     oracledb_version: "{{oracledb_version_select[oracledb_version_selection]}}"
     oracledb_server: "{{oracledb_server_select[oracledb_server_selection]}}"
     
