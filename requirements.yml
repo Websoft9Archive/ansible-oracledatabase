@@ -1,14 +1,9 @@
 - src: http://github.com/websoft9dev/role_common
-  version: master
 
 - src: http://github.com/websoft9dev/role_oracle
-  version: master
 
 - src: http://github.com/websoft9dev/role_jdk
-  version: master
 
 - src: http://github.com/websoft9dev/role_preend
-  version: master
 
 - src: http://github.com/websoft9dev/role_end
-  version: master
