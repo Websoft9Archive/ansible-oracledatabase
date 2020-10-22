@@ -11,6 +11,37 @@
 
 - Oracle Database，又名Oracle RDBMS，或简称Oracle。是[甲骨文公司](https://baike.baidu.com/item/甲骨文公司/430115)的一款[关系数据库管理系统](https://baike.baidu.com/item/关系数据库管理系统/11032386)。它是在数据库领域一直处于领先地位的产品。可以说Oracle数据库系统是目前世界上流行的关系数据库管理系统，系统可移植性好、使用方便、功能强，适用于各类大、中、小、微机环境。它是一种高效率、可靠性好的、适应高吞吐量的数据库方案。
 
+## 版权问题规避
+
+Oracle database 由于涉及版权问题，从流程上需要用户自己上传Oracle database 安装包，我们针对安装包本身进行静默安装，这样才可以避免版权问题。
+
+具体流程设计：
+
+1. 用户到Oracle官方注册账号，确保可以登录
+
+```
+注册地址：
+https://profile.oracle.com/myprofile/account/create-account.jspx
+```
+
+2. SSH登录到镜像所在的服务器，运行：install-oracledb.sh 初始化脚本
+2. 交互是询问
+
+```
+#1 许可协议
+是否接受 OPN 许可协议：https://www.oracle.com/downloads/licenses/standard-license.html
+接受，进入下一步；不接受，退出
+
+#2 账号验证
+输入Oracle官网用户名和密码，验证账号可用性
+
+#3 下载（等待约20min）
+
+#4 初始化安装
+```
+
+4. 安装完成之后引导用进入入口页面
+
 ## 环境要求
 
 - 程序语言：Java
