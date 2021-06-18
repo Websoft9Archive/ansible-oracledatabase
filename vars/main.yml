@@ -1,1 +1,3 @@
 common_os_support: ["CentOS", "OracleLinux"]
+
+jdk_version: "8" 
