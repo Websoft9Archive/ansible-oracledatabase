@@ -1,6 +1,6 @@
 - src: http://github.com/websoft9/role_common
 
-- src: http://github.com/websoft9/role_oracle
+- src: http://github.com/websoft9/role_oracledb
 
 - src: http://github.com/websoft9/role_jdk
 
