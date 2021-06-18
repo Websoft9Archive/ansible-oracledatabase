@@ -7,47 +7,13 @@
 
   vars_files:
     - vars/main.yml
-
-  vars_prompt:
-    - name: 'oracledb_version_selection'
-      prompt: "\nPlease choose the number for OracleDB version [ 1/2 ] \n\n
-      1: oracle 18c\n
-      2: oracle 19c\n"
-      private: no
-      default: 1
-
-    - name: 'oracledb_server_selection'
-      prompt: "\nOracleDB Community or OracleDB Enterprise? [ 1/2 ] \n\n
-      1: OracleDB Community\n
-      2: OracleDB Enterprise\n"
-      private: no
-      default: 1
-
-  vars:
-    oracledb_version_select:
-      '1': '18c'
-      '2': '19c'
-      
-    oracledb_number_select:
-      '1': '18'
-      '2': '19'
-
-    oracledb_server_select:
-      '1': 'community'
-      '2': 'enterprise'
-
-    oracledb_number: "{{oracledb_number_select[oracledb_version_selection]}}"
-    oracledb_version: "{{oracledb_version_select[oracledb_version_selection]}}"
-    oracledb_server: "{{oracledb_server_select[oracledb_server_selection]}}"
     
-  pre_tasks:
-    - debug:
-        msg: Will install ORACLE {{oracledb_version}}-{{oracledb_server}}
+  pre_tasks:  
+    - git:
+       repo: "https://github.com/Websoft9/role_oracledb"
+       dest: "/data/ansible-oracle"
 
   roles:
     - {role: role_common, tags: "role_common"}  
-    #- {role: role_cloud, tags: "role_cloud"} 
+    - {role: role_cloud, tags: "role_cloud"} 
     - {role: role_jdk, tags: "role_jdk"} 
-    - {role: role_oracle, tags: "role_oracle"}
-    - {role: role_preend, tags: "preend"}
-    - {role: role_end, tags: "role_end"}
