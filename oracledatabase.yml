@@ -15,7 +15,7 @@
     - name: Clone role_oracledb to remote 
       git:
        repo: "https://github.com/Websoft9/role_oracledb"
-       dest: "{{oracledb_dir}}/role_oracle"
+       dest: "{{oracledb_dir}}/role_oracledb"
        version: dev
 
   roles:
