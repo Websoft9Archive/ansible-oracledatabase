@@ -10,7 +10,7 @@
     
   pre_tasks:
     - name: Create dir for oracledb
-      file: path=/data/oracle recurse=yes state=directory
+      file: path=/data/db/oracle recurse=yes state=directory
 
     - name: Clone role_oracledb to remote 
       git:
