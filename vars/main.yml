@@ -2,4 +2,4 @@ common_os_support: ["CentOS", "OracleLinux"]
 
 jdk_version: "8" 
 
-oracledb_install_dir: "/data/oracledb_install"
+oracledb_work_dir: "/data/oracledb"
