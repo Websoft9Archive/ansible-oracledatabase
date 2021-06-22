@@ -10,12 +10,12 @@
     
   pre_tasks:
     - name: Create dir for as oracle database install_dir
-      file: path={{oracledb_install_dir}} recurse=yes state=directory
+      file: path={{oracledb_work_dir}} recurse=yes state=directory
 
     - name: Clone role_oracledb to remote 
       git:
        repo: "https://github.com/Websoft9/role_oracledb"
-       dest: "{{oracledb_install_dir}}/role_oracledb"
+       dest: "{{oracledb_work_dir}}/role_oracledb"
        version: dev
 
   roles:
