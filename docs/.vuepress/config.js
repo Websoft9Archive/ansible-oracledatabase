@@ -2,8 +2,8 @@ module.exports = {
 
 //针对不同项目，需要修改的参数有：base,title,description,repo以及nav,sidebar 文件夹下的导航js文件
 
-base: '/docs/rabbitmq/',
-dest: 'html/rabbitmq',
+base: '/docs/oracle/',
+dest: 'html/oracle',
 
 head: [
   ['link', { rel: 'icon', href: '/favcon.ico' }]
@@ -13,13 +13,13 @@ head: [
 locales: {
     '/': {
       lang: 'en-US', // 将会被设置为 <html> 的 lang 属性
-      title: 'RabbitMQ Administrator Guide',
-      description: 'You can get the Installation of Image,Administrator,Configuration of the RabbitMQ from this documentation.'
+      title: 'Oracle Database Administrator Guide',
+      description: 'You can get the Installation of Image,Administrator,Configuration of the Oracle Database from this documentation.'
     },
     '/zh/': {
       lang: 'zh-CN',
-      title: 'RabbitMQ 管理员手册',
-      description: '本文档由 Websoft9 公司提供，用于指导用户学习 RabbitMQ 的安装部署与基本运维技术，包括：部署、初始化安装、环境配置、HTTPS、SMTP、备份升级和连接云服务器操作等基本操作。'
+      title: 'Oracle Database 管理员手册',
+      description: '本文档由 Websoft9 公司提供，用于指导用户学习 Oracle Database 的安装部署与基本运维技术，包括：部署、初始化安装、环境配置、HTTPS、SMTP、备份升级和连接云服务器操作等基本操作。'
     }
 },
 
@@ -32,7 +32,7 @@ themeConfig: {
   sidebar: 'auto', // 默认值：false
 
   //Github 
-  repo: 'Websoft9/ansible-rabbitmq',
+  repo: 'Websoft9/ansible-oracle',
   editLinks: true,
   docsDir: 'docs',
   docsBranch: 'main',

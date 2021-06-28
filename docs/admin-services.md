@@ -1,17 +1,17 @@
 # Start or Stop the Services
 
-These commands you must know when you using the RabbitMQ of Websoft9
+These commands you must know when you using the Oracle Database of Websoft9
 
-### RabbitMQ
+### Oracle Database
 
 ```shell
-sudo systemctl start rabbitmq-server
-sudo systemctl stop rabbitmq-server
-sudo systemctl restart rabbitmq-server
-sudo systemctl status rabbitmq-server
+sudo systemctl start oracle-server
+sudo systemctl stop oracle-server
+sudo systemctl restart oracle-server
+sudo systemctl status oracle-server
 
-# you can use this debug mode if RabbitMQ service can't run
-rabbitmq-server console
+# you can use this debug mode if Oracle Database service can't run
+oracle-server console
 ```
 
 ### MySQL

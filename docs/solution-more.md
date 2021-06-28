@@ -4,15 +4,15 @@ Each of the following solutions has been proven to be effective and we hope to b
 
 ## Configuration 
 
-Refer to the official docs: https://www.rabbitmq.com/configure.html
+Refer to the official docs: https://www.oracle.com/configure.html
 
 ## Domain binding
 
-The precondition for binding a domain is that RabbitMQ can accessed by domain name.
+The precondition for binding a domain is that Oracle Database can accessed by domain name.
 
 Nonetheless, from the perspective of server security and subsequent maintenance considerations, the **Domain Binding** step cannot be omitted.
 
-RabbitMQ domain name binding steps:
+Oracle Database domain name binding steps:
 
 1. Connect your Cloud Server
 2. Modify [Nginx vhost configuration file](/stack-components.md#nginx), change the **server_name**'s value to your domain name

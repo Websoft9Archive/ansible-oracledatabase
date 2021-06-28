@@ -1,29 +1,29 @@
 # Deployment
 
-**Deployment is to copy the RabbitMQ pre-packaged online to your Cloud Server**. For example, after the user subscribe RabbitMQ on the Cloud Platform, the Platform will automatically copy the RabbitMQ to the corresponding Cloud Server.
+**Deployment is to copy the Oracle Database pre-packaged online to your Cloud Server**. For example, after the user subscribe Oracle Database on the Cloud Platform, the Platform will automatically copy the Oracle Database to the corresponding Cloud Server.
 
-- If RabbitMQ has been deployed, go to [Initial Installation](/zh/stack-installation.md) to complete the operation.
-- If RabbitMQ is not deployed, you need to deploy RabbitMQ to your cloud server first.
+- If Oracle Database has been deployed, go to [Initial Installation](/zh/stack-installation.md) to complete the operation.
+- If Oracle Database is not deployed, you need to deploy Oracle Database to your cloud server first.
 
-We offer two deployment RabbitMQ scenarios (the deployment results are the same):
+We offer two deployment Oracle Database scenarios (the deployment results are the same):
 
 ## Deploy by Image
 
-**Deploy by Image** means starting instance from RabbitMQ images. **RabbitMQ Image** provide OS and software environment needed for RabbitMQ.
+**Deploy by Image** means starting instance from Oracle Database images. **Oracle Database Image** provide OS and software environment needed for Oracle Database.
 
 For users with experience with cloud servers, Deploy by Image equated with "one-click deployment".
 
-Websoft9 published [RabbitMQ image](https://apps.websoft9.com/rabbitmq) on Cloud Platform, three methods for your deployment:
+Websoft9 published [Oracle Database image](https://apps.websoft9.com/oracle) on Cloud Platform, three methods for your deployment:
 
-* When **Create New Instance** , select the RabbitMQ image as the system boot template.
-* When **Subscribe RabbitMQ** on Marketplace, the system will promote you to create a new instance for this image at the same time.
-* When **Re-install OS** for you instance, you can replace the existing image with a RabbitMQ image.
+* When **Create New Instance** , select the Oracle Database image as the system boot template.
+* When **Subscribe Oracle Database** on Marketplace, the system will promote you to create a new instance for this image at the same time.
+* When **Re-install OS** for you instance, you can replace the existing image with a Oracle Database image.
 
 ## Deploy by Script
 
 **Deploy by Script** means running a script on your cloud instance to pull the pre-packages online to your instance and configure it at the same time.
 
-Websoft9 provide the [RabbitMQ ansbile automation script](https://github.com/Websoft9/ansible-rabbitmq) on Github. If you are familiar with Ansible, you can deploy the RabbitMQ to the instance automaticly.
+Websoft9 provide the [Oracle Database ansbile automation script](https://github.com/Websoft9/ansible-oracle) on Github. If you are familiar with Ansible, you can deploy the Oracle Database to the instance automaticly.
 
 ## Comparison
 

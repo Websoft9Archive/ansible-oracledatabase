@@ -1,17 +1,17 @@
 # 服务启停
 
-使用由Websoft9提供的 RabbitMQ 部署方案，可能需要用到的服务如下：
+使用由Websoft9提供的 Oracle Database 部署方案，可能需要用到的服务如下：
 
-### RabbitMQ
+### Oracle Database
 
 ```shell
-sudo systemctl start rabbitmq-server
-sudo systemctl stop rabbitmq-server
-sudo systemctl restart rabbitmq-server
-sudo systemctl status rabbitmq-server
+sudo systemctl start oracle-server
+sudo systemctl stop oracle-server
+sudo systemctl restart oracle-server
+sudo systemctl status oracle-server
 
-# you can use this debug mode if RabbitMQ service can't run
-rabbitmq-server console
+# you can use this debug mode if Oracle Database service can't run
+oracle-server console
 ```
 
 ### MySQL

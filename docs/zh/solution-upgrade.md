@@ -6,7 +6,7 @@
 - 操作系统打个补丁常称之为**更新**，Ubuntu16.04 变更为 Ubuntu18.04，称之为**升级**
 - MySQL5.6.25-->MySQL5.6.30 常称之为**更新**，MySQL5.6->MySQL5.7 称之为**升级**
 
-RabbitMQ 完整的更新升级包括：系统级更新（操作系统和运行环境）和 RabbitMQ 程序升级两种类型
+Oracle Database 完整的更新升级包括：系统级更新（操作系统和运行环境）和 Oracle Database 程序升级两种类型
 
 ## 系统级更新
 
@@ -24,4 +24,4 @@ yum update -y --skip-broken
 
 ## RabbitMQ升级
 
-详情参考官方升级文档：[Upgrading RabbitMQ](https://www.rabbitmq.com/upgrade.html)
+详情参考官方升级文档：[Upgrading Oracle Database](https://www.oracle.com/upgrade.html)

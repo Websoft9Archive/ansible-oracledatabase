@@ -1,19 +1,19 @@
 # FAQ
 
-#### How can I enable the debug mode of RabbitMQ service?
+#### How can I enable the debug mode of Oracle Database service?
 
 ```
-systemctl stop rabbitmq-server
-rabbitmq-server console
+systemctl stop oracle-server
+oracle-server console
 ```
 
-#### Can I reset password of RabbitMQ by command?
+#### Can I reset password of Oracle Database by command?
 
 Yes, e.g `rabbitmqctl change_password  admin newpassword`
 
-#### If there is no domain name, can I deploy RabbitMQ?
+#### If there is no domain name, can I deploy Oracle Database?
 
-Yes, visit RabbitMQ by *http://Internet IP:8161*
+Yes, visit Oracle Database by *http://Internet IP:8161*
 
 #### What is the password for the database root user?
 
@@ -23,7 +23,7 @@ The password is stored in the server related file: `/credentials/password.txt`
 
 Yes, phpMyAdmin is on it, visit by *http://Internet IP/phpmyadmin*
 
-#### Is it possible to modify the source path of RabbitMQ?
+#### Is it possible to modify the source path of Oracle Database?
 
 No
 

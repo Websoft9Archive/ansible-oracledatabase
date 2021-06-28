@@ -1,13 +1,13 @@
 # Parameters
 
-The RabbitMQ deployment package contains a sequence software (referred to as "components") required for RabbitMQ to run. The important information such as the component name, installation directory path, configuration file path, port, version, etc. are listed below.
+The Oracle Database deployment package contains a sequence software (referred to as "components") required for Oracle Database to run. The important information such as the component name, installation directory path, configuration file path, port, version, etc. are listed below.
 
 ## Path
 
-### RabbitMQ
+### Oracle Database
 
-RabbitMQ installation directory:  */data/rabbitmq*  
-RabbitMQ logs directory:  */data/logs/rabbitmq*  
+Oracle Database installation directory:  */data/oracle*  
+Oracle Database logs directory:  */data/logs/oracle*  
 
 ### Nginx
 
@@ -31,7 +31,7 @@ You can run the cmd `netstat -tunlp` to list all used ports, and we list the fol
 
 | Name | Number | Use |  Necessity |
 | --- | --- | --- | --- |
-| HTTP | 8161 | HTTP requests for RabbitMQ Console| Required |
+| HTTP | 8161 | HTTP requests for Oracle Database Console| Required |
 | HTTPS | 5672 | epmd | Optional |
 | TCP | 55672 | Erlang distribution | Optional |
 
@@ -60,6 +60,6 @@ docker -v
 yum info erlang
 apt show erlang
 
-# RabbitMQ version
-rabbitmqctl status | grep RabbitMQ*
+# Oracle Database version
+rabbitmqctl status | grep Oracle Database*
 ```
