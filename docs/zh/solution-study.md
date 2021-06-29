@@ -54,7 +54,7 @@ SGA 的作用包括：
 
 一个数据库实例包括多个后台进程（background process）。服务器进程（server process），以及分配给它们的内存，也位于实例之中。实例在服务器进程结束后仍然继续存在。
 下图显示了 Oracle Database 实例中的主要组件。
-[](https://libs.websoft9.com/Websoft9/DocsPicture/zh/oracle_database/oracle-instancecomponent-websoft9.png)
+  ![](https://libs.websoft9.com/Websoft9/DocsPicture/zh/oracle_database/oracle-instancecomponent-websoft9.png)
 
 #### 实例名和实例配置
 
