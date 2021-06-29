@@ -1,7 +1,3 @@
----
-sidebarDepth: 3
----
-
 # Oracle Database速学
 
 ## 概念
@@ -63,424 +59,112 @@ SGA 的作用包括：
 下图显示了两种可能的数据库实例配置。
   ![](https://libs.websoft9.com/Websoft9/DocsPicture/zh/oracle_database/oracle-instancedb-websoft9.png)
 
+如何查询数据库实例名？
+```
+select instance_name from v$instance;
+show parameter instance_name;
+```
 
-## 监听器(LISTENER)
+### 数据库服务
+
+#### 服务名
+
+参数是从Oracle8i新引进的。在8i以前，我们用SID来表示标识数据库的一个实例，但是在Oracle的并行环境中，一个数据库对应多个实例，这样就需要多个网络服务名，设置繁琐。为了方便并行环境中的设置，引进了Service_name参数，该参数对应一个数据库，而不是一个实例，而且该参数有许多其它的好处。该参数的缺省值为Db_name. Db_domain，即等于Global_name。一个数据库可以对应多Service_name，以便实现更灵活的配置。该参数与SID没有直接关系，即不必Service name 必须与SID一样。如果数据库有域名，则数据库服务名就是全局数据库名，否则，数据库服务名与数据库名相同。
+
+### Oracle Database 启动
+
+#### 启动过程
+
+Oracle  Database 的启动需要经历四个状态，SHUTDOWN 、NOMOUNT 、MOUNT 、OPEN。如果使用 Oracle Net 启动一个数据库实例，需要满足以下条件：
+ - 数据库通过静态方式注册到 Oracle Net 监听器中
+ - 使用 SYSDBA 权限进行连接
+
+监听器启动一个专用的服务器进程，用于启动数据库实例，过程如下：
+ - 启动实例，未加载数据库
+ - 加载数据库
+ - 打开数据库
+
+  ![](https://libs.websoft9.com/Websoft9/DocsPicture/zh/oracle_database/oracle-startup-websoft9.png)
+
+#### 管理员登录
+数据库的启动和关闭是非常强大的管理功能，只能由具有管理员权限的用户执行。普通用户无法控制数据库的当前状态。以下特殊的系统权限能够在数据库未打开时访问实例：
+ - SYSDBA
+ - SYSOPER
+ - SYSBACKUP
+ - SYSDG
+ - SYSKM
+以上权限的管理不在数据库的自身范围之内。使用 SYSDBA 系统权限连接时，用户位于 SYS 模式中。使用 SYSOPER 连接时，用户位于公共模式中。SYSOPER 权限是 SYSDBA 权限的一个子集。
+
+### Oracle Database 用户
+
+#### 默认用户
+
+Oracle Database 默认用户分为：SYS、SYSTEM、SCOTT。
+ - SYS:数据库中所有数据字典表和视图都存储在 SYS 模式中。SYS用户主要用来维护系统信息和管理实例。
+ - SYSTEM:SYSTEM 是默认的系统管理员，该用户拥有Oracle管理工具使用的内部表和视图。通常通过SYSTEM用户管理数据库用户、权限和存储等。普通用户授予DBA角色后基本和SYSTEM用户一样。
+ - SCOTT:SCOTT用户是Oracle 数据库的一个示范帐户，在数据库安装时创建。
+
+#### Oracle Database 用户权限
+
+Oracle 用户权限：SYSDBA、SYSOPER、NORMAL。
+ - SYSDBA权限，即数据库管理员权限，最高的系统权限。任何用户通过SYSDBA登录后用户变成SYS。权限包括：管理功能, 创建数据库(CREATE DATABASE)以及 SYSOPER的所有权限
+ - SYSOPER权限，即数据库操作员权限，SYSOPER主要用来启动、关闭数据库，普通用户授权SYSOPER登陆后用户是 public。权限包括：打开数据库，关闭数据库服务器，备份数据库 ，恢复数据库，日志归档，会话限制
+ - NORMAL权限的用户代表普通用户
+
+### Oracle Database 远程访问
+
+Oracle Database客户端连接服务端的过程，是通过监听器(LISTENER)和Oracle实例发生连接。因此，在监听的配置文件中设置是否能通过远程访问。
+listener.ora配置如下，当HOST为localhost时无法通过远程访问；如果为机器名或者IP地址时，可以通过公网IP访问。
+```
+LISTENER =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+    )
+  )
+```
+
+### 监听器(LISTENER)
 
 监听器是Oracle Database基于服务器端的一种网络服务，主要用于监听客户端向数据库服务器端提出的连接请求。既然是基于服务器端的服务，那么它也只存在于数据库服务器端，进行监听器的设置也是在数据库服务器端完成的。
 
-### SQL vs Oracle Database
+#### 为什么需要监听？
 
-The basic concepts in mongodb are document, collection, and databases. let's take SQL as an example to help you better understand Oracle Database.
+用通俗的话来讲，监听就是数据库的管家。客户端访问实例的时候，管家去查看访问者IP是否上了黑名单，能否让他进入，如果决定让访问者进入；访问者还需要输入密码。密码输入正确后，
+他就可以进入屋子，至于那个房间可以进入那个不可以，那是权限的问题了。
 
-| SQL Term/concept | Oracle Database Term/concept | explain |
-| :--- | :--- | :--- |
-| database | database | Database Instance |
-| table | collection | databae table/collection |
-| row | document | table row/document |
-| column | field | Data field/domain |
-| index | index | index |
-| table joins |   | Oracle Database no this |
-| primary key | primary key | keyPrimary key, Oracle Database automatically sets the _id field as the primary key |
+#### 如何配置监听
 
-Through the example below, we can also understand some concepts in Mongo more intuitively:
+1. Oracle Net配置
 
-![](https://libs.websoft9.com/Websoft9/DocsPicture/zh/mongodb/nosqlvssql-websoft9.png)
-
-
-### Oracle Database 数据类型
-
-Oracle Database 的数据类型非常类似 JavaScript 对象。
-
-**字符串** - 这是用于存储数据的最常用的数据类型。Oracle Database中的字符串必须为`UTF-8`。
-
-**整型** - 此类型用于存储数值。 整数可以是`32`位或`64`位，具体取决于服务器。
-
-**布尔类型** - 此类型用于存储布尔值(`true` / `false`)值。
-
-**双精度浮点数** - 此类型用于存储浮点值。
-
-**最小/最大键** - 此类型用于将值与最小和最大`BSON`元素进行比较。
-
-**数组** - 此类型用于将数组或列表或多个值存储到一个键中。
-
-**时间戳** - `ctimestamp`，当文档被修改或添加时，可以方便地进行录制。
-
-**对象** - 此数据类型用于嵌入式文档。
-
-**对象** - 此数据类型用于嵌入式文档。
-
-**Null** - 此类型用于存储`Null`值。
-
-**符号** - 该数据类型与字符串相同; 但是，通常保留用于使用特定符号类型的语言。
-
-**日期** - 此数据类型用于以UNIX时间格式存储当前日期或时间。您可以通过创建日期对象并将日，月，年的日期进行指定自己需要的日期时间。
-
-**对象ID** - 此数据类型用于存储文档的ID。
-
-**二进制数据** - 此数据类型用于存储二进制数据。
-
-**代码** - 此数据类型用于将JavaScript代码存储到文档中。
-
-**正则表达式** - 此数据类型用于存储正则表达式。
-
-### 规划数据模型
-
-Oracle Database 作为一种数据库，与传统的 RDBMS 的使用方式也有相似之处，即规划数据模型，建立数据库范式。只有这种，才能更好的发挥数据库的性能。  
-
-![](http://libs.websoft9.com/Websoft9/DocsPicture/en/mongodb/mongodb-datamodel-websoft9.png)
-
-
-数据规划的主要设计要点包括：
-
-* 使用数据范式
-* 使用嵌入式文档反范式
-* 使用固定集合
-* 考虑文档增大
-* 规划索引、分片和复制
-* 规划数据生命周期
-
-## 配置
-
-### 启动
-
-安装Oracle Database后，启动 bin 目录下的可执行文件 mongod 就可以启动 Oracle Database 服务，如果你配置了 Systemd，也可以通过 `systemctl start mongod` 以后台的形式启动 Oracle Database。  
-
-Oracle Database 在启动的时候，可以通过命令接受一序列参数，也可以通过配置文件接受参数：  
-
-**命令行参数**
+2. 直接配置$ORACLE_HOME/network/admin/listerer.ora，示例如下：
 
 ```
-  -v [ --verbose ] [=arg(=v)]           be more verbose (include multiple times
-                                        for more verbosity e.g. -vvvvv)
-  --quiet                               quieter output
-  --port arg                            specify port number - 27017 by default
-  --logpath arg                         log file to send write to instead of
-                                        stdout - has to be a file, not
-                                        directory
-  --syslog                              log to system's syslog facility instead
-                                        of file or stdout
-  --syslogFacility arg                  syslog facility used for mongodb syslog
-                                        message
-  --logappend                           append to logpath instead of
-                                        over-writing
-  --logRotate arg                       set the log rotation behavior
-                                        (rename|reopen)
-  --timeStampFormat arg                 Desired format for timestamps in log
-                                        messages. One of ctime, iso8601-utc or
-                                        iso8601-local
-  --setParameter arg                    Set a configurable parameter
-  -h [ --help ]                         show this usage information
-  --version                             show version information
-  -f [ --config ] arg                   configuration file specifying
-                                        additional options
-  --bind_ip arg                         comma separated list of ip addresses to
-                                        listen on - localhost by default
-  --bind_ip_all                         bind to all ip addresses
-  --ipv6                                enable IPv6 support (disabled by
-                                        default)
-  --listenBacklog arg (=128)            set socket listen backlog size
-  --maxConns arg                        max number of simultaneous connections
-                                        - 1000000 by default
-  --pidfilepath arg                     full path to pidfile (if not set, no
-                                        pidfile is created)
-  --timeZoneInfo arg                    full path to time zone info directory,
-                                        e.g. /usr/share/zoneinfo
-  --keyFile arg                         private key for cluster authentication
-  --noauth                              run without security
-  --transitionToAuth                    For rolling access control upgrade.
-                                        Attempt to authenticate over outgoing
-                                        connections and proceed regardless of
-                                        success. Accept incoming connections
-                                        with or without authentication.
-  --clusterAuthMode arg                 Authentication mode used for cluster
-                                        authentication. Alternatives are
-                                        (keyFile|sendKeyFile|sendX509|x509)
-  --nounixsocket                        disable listening on unix sockets
-  --unixSocketPrefix arg                alternative directory for UNIX domain
-                                        sockets (defaults to /tmp)
-  --filePermissions arg                 permissions to set on UNIX domain
-                                        socket file - 0700 by default
-  --fork                                fork server process
-  --slowms arg (=100)                   value of slow for profile and console
-                                        log
-  --slowOpSampleRate arg (=1)           fraction of slow ops to include in the
-                                        profile and console log
-  --networkMessageCompressors [=arg(=disabled)] (=snappy)
-                                        Comma-separated list of compressors to
-                                        use for network messages
-  --auth                                run with security
-  --clusterIpSourceWhitelist arg        Network CIDR specification of permitted
-                                        origin for `__system` access.
-  --profile arg                         0=off 1=slow, 2=all
-  --cpu                                 periodically show cpu and iowait
-                                        utilization
-  --sysinfo                             print some diagnostic system
-                                        information
-  --noIndexBuildRetry                   don't retry any index builds that were
-                                        interrupted by shutdown
-  --noscripting                         disable scripting engine
-  --notablescan                         do not allow table scans
-  --shutdown                            kill a running server (for init
-                                        scripts)
+# listener.ora Network Configuration File: /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+# Generated by Oracle configuration tools.
 
-Replication options:
-  --oplogSize arg                       size to use (in MB) for replication op
-                                        log. default is 5% of disk space (i.e.
-                                        large is good)
-  --master                              Master/slave replication no longer
-                                        supported
-  --slave                               Master/slave replication no longer
-                                        supported
+LISTENER =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = iZj6cdy96p2tjgceyevws4Z)(PORT = 1521))
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+    )
+  )
 
-Replica set options:
-  --replSet arg                         arg is <setname>[/<optionalseedhostlist
-                                        >]
-  --replIndexPrefetch arg               specify index prefetching behavior (if
-                                        secondary) [none|_id_only|all]
-  --enableMajorityReadConcern [=arg(=1)] (=1)
-                                        enables majority readConcern
+SID_LIST_LISTENER=
+  (SID_LIST=
+      (SID_DESC=
+         (GLOBAL_DBNAME=ORCLCDB)
+         (SID_NAME=ORCLCDB)
+         (ORACLE_HOME=/opt/oracle/product/19c/dbhome_1)
+       )
+   )
 
-Sharding options:
-  --configsvr                           declare this is a config db of a
-                                        cluster; default port 27019; default
-                                        dir /data/configdb
-  --shardsvr                            declare this is a shard db of a
-                                        cluster; default port 27018
-
-SSL options:
-  --sslOnNormalPorts                    use ssl on configured ports
-  --sslMode arg                         set the SSL operation mode
-                                        (disabled|allowSSL|preferSSL|requireSSL
-                                        )
-  --sslPEMKeyFile arg                   PEM file for ssl
-  --sslPEMKeyPassword arg               PEM file password
-  --sslClusterFile arg                  Key file for internal SSL
-                                        authentication
-  --sslClusterPassword arg              Internal authentication key file
-                                        password
-  --sslCAFile arg                       Certificate Authority file for SSL
-  --sslClusterCAFile arg                CA used for verifying remotes during
-                                        outbound connections
-  --sslCRLFile arg                      Certificate Revocation List file for
-                                        SSL
-  --sslDisabledProtocols arg            Comma separated list of TLS protocols
-                                        to disable [TLS1_0,TLS1_1,TLS1_2]
-  --sslWeakCertificateValidation        allow client to connect without
-                                        presenting a certificate
-  --sslAllowConnectionsWithoutCertificates
-                                        allow client to connect without
-                                        presenting a certificate
-  --sslAllowInvalidHostnames            Allow server certificates to provide
-                                        non-matching hostnames
-  --sslAllowInvalidCertificates         allow connections to servers with
-                                        invalid certificates
-  --sslFIPSMode                         activate FIPS 140-2 mode at startup
-
-Storage options:
-  --storageEngine arg                   what storage engine to use - defaults
-                                        to wiredTiger if no data files present
-  --dbpath arg                          directory for datafiles - defaults to
-                                        /data/db
-  --directoryperdb                      each database will be stored in a
-                                        separate directory
-  --noprealloc                          disable data file preallocation - will
-                                        often hurt performance
-  --nssize arg (=16)                    .ns file size (in MB) for new databases
-  --quota                               limits each database to a certain
-                                        number of files (8 default)
-  --quotaFiles arg                      number of files allowed per db, implies
-                                        --quota
-  --smallfiles                          use a smaller default file size
-  --syncdelay arg (=60)                 seconds between disk syncs (0=never,
-                                        but not recommended)
-  --upgrade                             upgrade db if needed
-  --repair                              run repair on all dbs
-  --repairpath arg                      root directory for repair files -
-                                        defaults to dbpath
-  --journal                             enable journaling
-  --nojournal                           disable journaling (journaling is on by
-                                        default for 64 bit)
-  --journalOptions arg                  journal diagnostic options
-  --journalCommitInterval arg           how often to group/batch commit (ms)
-
-WiredTiger options:
-  --wiredTigerCacheSizeGB arg           maximum amount of memory to allocate
-                                        for cache; defaults to 1/2 of physical
-                                        RAM
-  --wiredTigerJournalCompressor arg (=snappy)
-                                        use a compressor for log records
-                                        [none|snappy|zlib]
-  --wiredTigerDirectoryForIndexes       Put indexes and data in different
-                                        directories
-  --wiredTigerMaxCacheOverflowFileSizeGB arg (=0)
-                                        Maximum amount of disk space to use for
-                                        cache overflow; Defaults to 0
-                                        (unbounded)
-  --wiredTigerCollectionBlockCompressor arg (=snappy)
-                                        block compression algorithm for
-                                        collection data [none|snappy|zlib]
-  --wiredTigerIndexPrefixCompression arg (=1)
-                                        use prefix compression on row-store
-                                        leaf pages
-
-Free Monitoring options:
-  --enableFreeMonitoring arg            Enable Cloud Free Monitoring
-                                        (on|runtime|off)
-  --freeMonitoringTag arg               Cloud Free Monitoring Tags
-
+ADR_BASE_LISTENER = /opt/oracle/
 ```
 
-**配置文件参数**
 
-配置文件所用的参数与命令行有一些差异，Oracle Database 当前采用配置组+配置段的方式组织[配置文件](https://docs.mongodb.com/v4.0/reference/configuration-options/#conf-file)，配置组主要包括：
+### Web可视化工具（EM）
 
-* systemLog Options
-* processManagement Options
-* cloud Options
-* net Options
-* security Options
-* setParameter Option
-* storage Options
-* operationProfiling Options
-* replication Options
-* sharding Options
-* auditLog Options
-* snmp Options 
-
-下面是一个典型的配置文件内容：  
-
-```
-processManagement:
-   fork: true
-net:
-   bindIp: localhost
-   port: 27017
-storage:
-   dbPath: /var/lib/mongo
-systemLog:
-   destination: file
-   path: "/var/log/mongodb/mongod.log"
-   logAppend: true
-storage:
-   journal:
-      enabled: true
-```
-
-### Oracle Database shell
-
-Oracle Database shell 是一个可执行文件，位于安装路径的 bin 目录下，执行 `mongo` 命令即可启动 Oracle Database shell。它是基于 JavaScript 语法的，即可以使用 JavaScript 语法与数据库进行交付。
-
-```
-[root@mongodb-test-centos7 ~]# mongo
-Oracle Database shell version v4.0.18
-connecting to: mongodb://127.0.0.1:27017/?gssapiServiceName=mongodb
-Implicit session: session { "id" : UUID("e808b886-30db-41dd-9464-40b52f041107") }
-Oracle Database server version: 4.0.18
-> help
-        db.help()                    help on db methods
-        db.mycoll.help()             help on collection methods
-        sh.help()                    sharding helpers
-        rs.help()                    replica set helpers
-        help admin                   administrative help
-        help connect                 connecting to a db help
-        help keys                    key shortcuts
-        help misc                    misc things to know
-        help mr                      mapreduce
-
-        show dbs                     show database names
-        show collections             show collections in current database
-        show users                   show users in current database
-        show profile                 show most recent system.profile entries with time >= 1ms
-        show logs                    show the accessible logger names
-        show log [name]              prints out the last segment of log in memory, 'global' is default
-        use <db_name>                set current database
-        db.foo.find()                list objects in collection foo
-        db.foo.find( { a : 1 } )     list objects in foo where a == 1
-        it                           result of the last line evaluated; use to further iterate
-        DBQuery.shellBatchSize = x   set default number of items to display on shell
-        exit                         quit the mongo shell
-
-```
-
-Oracle Database shell 有两种方式与数据库进行交互：
-
-* 命令行交互式操作
-* 运行存放在文件中的命令脚本（例如：shell_script.js）
-
-
-### 账户和访问控制
-
-Oracle Database 支持账号访问控制方式，也支持 Kerberos, LDAP 等外部身份验证机制。本章我们只介绍账户方式相关的四个关键要点：
-
-#### 数据库、用户和角色
-
-通过阅读下面的代码理解用户、数据库和角色的关系
-```
-use reporting
-db.createUser(
-  {
-    user: "reportsUser",
-    pwd: "12345678",
-    roles: [
-       { role: "read", db: "reporting" },
-       { role: "read", db: "products" },
-       { role: "read", db: "sales" },
-       { role: "readWrite", db: "accounts" }
-    ]
-  }
-)
-```
-对Oracle Database来说，每个用户都存在一个数据库中（区别于MySQL中所有的用户存储在一个系统数据库中）  
-
-系统默认，会自动创建 admin 数据库，这是一个特殊数据库，提供了普通数据库没有的功能，对于具备全局管理权限的数据库用户，必须存储在这个 admin 数据中。
-
-#### 启用认证
-
-创建了用户，并不会要求登录，只有开启了认证才会要求登录访问数据库。
-
-打开Oracle Database配置文件：*/etc/mongod.conf*，将authorization字段改为 enabled 即启用认证。
-
-```
-security:
-  authorization: disabled
-```
-
-为了方便试用，默认情况下认证已关闭。
-
-
-## 使用
-
-### 应用程序访问
-
-Oracle Database支持主流的开发程序直接访问，包括：PHP、Java、Python、Node.js等
-
-### 工具
-
-Oracle Database 官方提供了更多的工具，包括：
-
-**Oracle Database Atlas Open Service Broker**  
-Learn how you can use the Atlas Open Service Broker to deploy Atlas clusters and manage database users from within Kubernetes.
-
-**Oracle Database BI Connector**  
-Reference guide for the Oracle Database BI Connector. Learn how you can use business intelligence tools and SQL to query data stored in Oracle Database.
-
-**Oracle Database Charts**  
-Reference guide for Oracle Database Charts. Learn how to create visualizations of Oracle Database data quickly and easily.
-
-**Oracle Database Command Line Interface**  
-Learn how to use the Oracle Database Command Line Interface to quickly interact with your Oracle Database deployments for easier testing and scripting.
-
-**Oracle Database Compass**  
-Reference guide for Oracle Database Compass. Learn to use Oracle Database Compass's graphical user interface to view and analyze data stored in Oracle Database.
-
-**Oracle Database Database Tools**  
-Tools for interfacing with a Oracle Database cluster, such as importing/exporting data.
-
-**Oracle Database Kafka Connector**  
-Learn how to persist data from Kafka topics as a data sink into Oracle Database as well as publish changes from Oracle Database into Kafka topics as a data source.
-
-**Oracle Database Kubernetes Operator**  
-Learn how you can use the Kubernetes Operator to run Oracle Database Enterprise on Kubernetes and configure Cloud or Ops Manager for backup and monitoring.
-
-**Oracle Database Spark Connector**  
-Reference guide for the Oracle Database Spark Connector. Learn how you can use Oracle Database with Apache Spark.
+### 客户端可视化工具
