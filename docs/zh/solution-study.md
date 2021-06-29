@@ -61,7 +61,7 @@ SGA 的作用包括：
 数据库实例名是用于和操作系统进行联系的标识，就是说数据库和操作系统之间的交互用的是数据库实例名。实例名也被写入参数文件中，该参数为instance_name。
 数据库名和实例名可以相同也可以不同。在单实例情况下，数据库名和实例名是一对一的关系，但如果在应用集群（Oracle RAC）配置中，数据库名和实例名是一对多的关系。无论是单实例还是 Oracle RAC 配置，一个实例每次只能与一个数据库关联。管理员可以启动一个实例，然后加载（关联）一个数据库，但是不能同时加载两个数据库。
 下图显示了两种可能的数据库实例配置。
-
+  ![](https://libs.websoft9.com/Websoft9/DocsPicture/zh/oracle_database/oracle-instancedb-websoft9.png)
 
 
 ## 监听器(LISTENER)
