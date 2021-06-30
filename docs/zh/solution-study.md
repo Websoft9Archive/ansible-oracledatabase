@@ -167,4 +167,9 @@ ADR_BASE_LISTENER = /opt/oracle/
 
 ### Web可视化工具（EM）
 
+Oracle Database 安装时会自动安装EM，浏览器访问网址：*http://域名:5500/em* 或 *http://Internet IP:5500/em*
+
+  ![](https://libs.websoft9.com/Websoft9/DocsPicture/zh/oracle_database/oracle-emlogin-websoft9.png)
+  ![](https://libs.websoft9.com/Websoft9/DocsPicture/zh/oracle_database/oracle-emmain-websoft9.png)
+
 ### 客户端可视化工具
