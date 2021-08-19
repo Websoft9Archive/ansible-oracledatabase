@@ -6,7 +6,7 @@
 
 [English](/README.md) | [简体中文](/README-zh.md)  
 
-**Oracle Database Cloud Installer**, developed by [Websoft9](https://www.websoft9.com), is an automatic installation program of [Apache Oracle Database](https://oracle.apache.org/) based on Ansible and shell. It helps user install Oracle Database and pre-configure required items automatically and users only need to run a command on Linux. It simplifies the complicated installation and initialization process.  
+**Oracle Database Cloud Installer**, developed by [Websoft9](https://www.websoft9.com), is an automatic installation program of [Oracle Database](https://www.oracle.com/index.html) based on Ansible and shell. It helps user install Oracle Database and pre-configure required items automatically and users only need to run a command on Linux. It simplifies the complicated installation and initialization process.  
 
 ## System Requirement
 
@@ -14,16 +14,16 @@ System Requirement to install this repository are as following：
 
 | Conditions       | Details                               | Notes                |
 | ------------------- | --------------------------------| -------------------- |
-| Operating System   | CentOS7.x, Ubuntu18.04, Amazon Linux2 | Optional                 |
+| Operating System   | CentOS7.x, OracleLinux | Optional                 |
 | Public Cloud     | AWS, Azure, Alibaba Cloud, HUAWEI ClOUD, Tencent Cloud    | Optional                 |
 | Private Cloud     | KVM, VMware, VirtualBox, OpenStack    | Optional                 |
-| Server Configuration | vCPU no less than 1 core, Memory no less than  2 GIB, Storage no less than 10 GB, Bandwidth no less than 100M ||
+| Server Configuration | vCPU no less than 2 core, Memory no less than 8 GIB, Storage no less than 20 GB, Swap no less than 2GB |Bandwidth no less than 100M|
 
-To learn more information, please view [Installation & Configuration](https://oracle.apache.org/installation.html).
+To learn more information, please view [Installation & Configuration](https://docs.oracle.com/en/database/oracle/oracle-database/).
 
 ## Ecosystem
 
-Core components of this repository: Apache Oracle Database, Nginx, PostgreSQL, Docker, phpPgAdmin on docker
+Core components of this repository: SQL Developer, Oracle Database
 
 Learn more about [Parameters](/docs/stack-components.md).
 
@@ -37,22 +37,18 @@ Run the automatic installation script with **root** authority to start the insta
 
 ```
 $ sudo su -
-$ wget -N https://raw.githubusercontent.com/Websoft9/ansible-linux/main/scripts/install.sh; bash install.sh -r oracle
+$ wget -N https://raw.githubusercontent.com/Websoft9/ansible-linux/main/scripts/install.sh; bash install.sh -r oracledatabase
 ```
 
 If the network is broken or blocked, SSH will be interrupted and the installation will fail. Please reinstall.
 
 #### Image on Cloud 
 
-Follow our [Oracle Database image](https://apps.websoft9.com/oracle) for installation on major Cloud Platform.
+Follow our [Oracle Database image](https://apps.websoft9.com/oracledatabase) for installation on major Cloud Platform.
 
 ## Documentation
 
-**[Administrator Guide](https://support.websoft9.com/docs/oracle)** 
-
-## Changelog
-
-Detailed changes are documented in the [CHANGELOG](/CHANGELOG.md).
+**[Administrator Guide](https://support.websoft9.com/docs/oracledatabase)** 
 
 ## License
 
@@ -64,14 +60,16 @@ This program provided by Websoft9 contains a series of software with separate co
 
 ## FAQ
 
+#### How to install and view the latest release?
+
+This repository install way is Package isntallation, you can  view the version from [Official URL](https://docs.oracle.com/en/database/oracle/oracle-database/).  
+We will check [Release version](https://github.com/Websoft9/ansible-oracledatabase/releases) regularly. Update and test this project to ensure that users can successfully install the required version of Oracle Database.
+
 #### Can I run this repository on Ansible Tower? 
 
 Yes.
 
-#### How to install and view the latest release?
+#### Although the results of the deploy by image are consistent with the results of deploy by script, what is the difference between the two deployment methods?
 
-Get the Oracle Database version from [Oracle Database repository](https://github.com/apache/incubator-oracle/releases), and modify the Ansible variable **[rabbitmq_version](/roles/oracle/defaults/main.yml)** to change the Oracle Database version for this repository. 
+Suggest you read the document [Deploy by Image vs Deploy by Script](https://support.websoft9.com/docs/faq/bz-product.html#deployment-comparison).
 
-#### Is the default password safe?
-
-The solution used the random password solution, every deployment produce unique password which is different from other users
