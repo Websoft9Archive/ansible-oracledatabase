@@ -1,0 +1,19 @@
+{
+  "name": "oracledatabase",
+  "trademark": "Oracle Database",
+  "official_url": "https://www.oracle.com/index.html",
+  "support_os": "CentOS7.x, OracleLinux",
+  "requirements_cpu": "2",
+  "requirements_memory": "8",
+  "requirements_Bandwidth": "100",
+  "requirements_disk": "20",
+  "requirements_swap": "2",
+  "requirements_configure_url": "https://docs.oracle.com/en/database/oracle/oracle-database/",
+  "components": "SQL Developer, Oracle Database",
+  "install_way": {
+    "en": "Package isntallation",
+    "zh": "包安装"
+  },
+  "install_url": "https://docs.oracle.com/en/database/oracle/oracle-database/"
+ 
+}
